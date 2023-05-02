@@ -25,7 +25,7 @@ public class Api  {
 
        try {
            HttpRequest getRequest = HttpRequest.newBuilder()
-                   .uri(new URI("https://restcountries.com/v2/all?fields=name,population,capital,area,currency,region,subregion,language"))
+                   .uri(new URI("https://restcountries.com/v2/all?fields=name,population,capital,area,currencies,region,subregion,language,nativeName,"))
                    .header("Authorization", "PMAK-642eba4d7d25703cc5178dd4-24fa0d513a60ab03a22a8f9a8de054a9d7")
                    .build();
 
@@ -67,6 +67,60 @@ public class Api  {
         }
 
         return countryNames.get(randomIndex.nextInt(countryNames.size()));
+    }
+
+    public static String getRandomNativeName() throws Exception {
+
+        Countries[] country = apiResult();
+        ArrayList<String> nativeNames = new ArrayList<>();
+        Random randomIndex = new Random();
+
+        for (Countries s: country){
+            nativeNames.add(s.getNativeNames());
+        }
+
+        return nativeNames.get(randomIndex.nextInt(nativeNames.size()));
+    }
+
+    public static String getCountryNativeNameFromCountryName(String countryName) throws Exception {
+
+        Countries[] country = apiResult();
+        StringBuilder nativeName = new StringBuilder();
+
+        for (Countries s: country){
+            if (countryName.equalsIgnoreCase(s.getName())){
+                nativeName.append(s.getNativeNames());
+            }
+        }
+
+        return nativeName.toString();
+    }
+
+    public static String getRandomSubRegion() throws Exception {
+
+        Countries[] country = apiResult();
+        ArrayList<String> subRegion = new ArrayList<>();
+        Random randomIndex = new Random();
+
+        for (Countries s: country){
+            subRegion.add(s.getSubregion());
+        }
+
+        return subRegion.get(randomIndex.nextInt(subRegion.size()));
+    }
+
+    public static String getSubRegionFromCountryName(String countryName) throws Exception {
+
+        Countries[] country = apiResult();
+        StringBuilder subRegion = new StringBuilder();
+
+        for (Countries s: country){
+            if (countryName.equalsIgnoreCase(s.getName())){
+                subRegion.append(s.getNativeNames());
+            }
+        }
+
+        return subRegion.toString();
     }
 
 

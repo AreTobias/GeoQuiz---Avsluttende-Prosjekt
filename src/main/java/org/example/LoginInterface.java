@@ -94,7 +94,7 @@ public class LoginInterface extends Interface {
 
     public boolean getLoginClicked() {return loginClicked; }
 
-
+    public boolean getLoginCancelClicked() { return loginCancelClicked; }
 
 
 }

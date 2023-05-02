@@ -22,79 +22,68 @@ class ParentWindow extends JFrame {
         AdminWindow newAdmin = new AdminWindow(this);
 
 
-        if (newLoginInterface.getLoginClicked() && newLoginInterface.dataOk() && newLoginInterface.checkLogin(newLogin)) {
-            while (Database.checkAccess(newLogin.getUserName(), newLogin.getPassWord()).equals("admin") && !newAdmin.getAdminCancelButton()){
-                newAdmin.setLocation(950, 500);
-                newAdmin.setSize(500, 300);
-                newAdmin.setVisible(true);
+        while(!newLoginInterface.getLoginCancelClicked()){
+            if (newLoginInterface.getLoginClicked() && newLoginInterface.dataOk() && newLoginInterface.checkLogin(newLogin)) {
+                while (Database.checkAccess(newLogin.getUserName(), newLogin.getPassWord()).equals("admin") && !newAdmin.getAdminCancelButton()){
+                    newAdmin.setLocation(950, 500);
+                    newAdmin.setSize(500, 300);
+                    newAdmin.setVisible(true);
 
-                if (newAdmin.getNewUserClicked()){
-                    UserWindow newUserWindow = new UserWindow(this);
-                    newUserWindow.setLocation(1150, 500);
-                    newUserWindow.setSize(500, 300);
-                    newUserWindow.setVisible(true);
-                    if (newAdmin.getNewUserClicked() && newUserWindow.dataOk(newUserWindow.getUserName(), newUserWindow.getPassWord(), newUserWindow.getAccess()) && Database.newUser(newUserWindow.getUserName(), newUserWindow.getPassWord(), newUserWindow.getAccess())){
-                        newUserWindow.showRegisteredUserMessage();
-                    }
-
-                } else if (newAdmin.getNewQuestionClicked()){
-                        NewQuestion newQuestion = new NewQuestion(this);
-                        newQuestion.setLocation(1150, 500);
-                        newQuestion.setSize(500, 300);
-                        newQuestion.setVisible(true);
-
-                        if (newQuestion.QuestiondataOk(newQuestion.getQuestion(), newQuestion.getAnswer()) && Database.newQuestion(newQuestion.getQuestion(), newQuestion.getAnswer(), newLogin.getUserName())){
-                            newQuestion.showRegMessage();
+                    if (newAdmin.getNewUserClicked()){
+                        UserWindow newUserWindow = new UserWindow(this);
+                        newUserWindow.setLocation(1150, 500);
+                        newUserWindow.setSize(500, 300);
+                        newUserWindow.setVisible(true);
+                        if (newAdmin.getNewUserClicked() && newUserWindow.dataOk(newUserWindow.getUserName(), newUserWindow.getPassWord(), newUserWindow.getAccess()) && Database.newUser(newUserWindow.getUserName(), newUserWindow.getPassWord(), newUserWindow.getAccess())){
+                            newUserWindow.showRegisteredUserMessage();
                         }
-                } else if (newAdmin.getRegisteredUsersClicked()){
 
+                    } else if (newAdmin.getNewQuestionClicked()){
+                            NewQuestion newQuestion = new NewQuestion(this);
+                            newQuestion.setLocation(1150, 500);
+                            newQuestion.setSize(500, 300);
+                            newQuestion.setVisible(true);
 
-                    //showReg.setID("");
-                    //showReg.setUserName("");
-                    //showReg.setAccess("");
-
-
-                    for ( int i = 0; i <= Database.getId().size() - 1; i++){
+                            if (newQuestion.QuestiondataOk(newQuestion.getQuestion(), newQuestion.getAnswer()) && Database.newQuestion(newQuestion.getQuestion(), newQuestion.getAnswer(), newLogin.getUserName())){
+                                newQuestion.showRegMessage();
+                            }
+                    } else if (newAdmin.getRegisteredUsersClicked()){
                         showRegisteredUsersWindow showReg = new showRegisteredUsersWindow(this);
                         showReg.setLocation(1150, 500);
                         showReg.setSize(500, 300);
                         showReg.setVisible(true);
-                        //showReg.setTextArea(showReg.);
-                        showReg.setIdTextField("");
-                        showReg.setUsernameTextField("");
-                        pack();
+
                     }
                 }
-            }
-        } if (newLoginInterface.getLoginClicked() && newLoginInterface.dataOk() && newLoginInterface.checkLogin(newLogin)){
-            while (Database.checkAccess(newLogin.getUserName(), newLogin.getPassWord()).equals("user") && !useraccesswindow.getQuizCancelButtonClicked()) {
-                useraccesswindow.setLocation(1150, 500);
-                useraccesswindow.setSize(500, 300);
-                useraccesswindow.setVisible(true);
+            } if (newLoginInterface.getLoginClicked() && newLoginInterface.dataOk() && newLoginInterface.checkLogin(newLogin)){
+                while (Database.checkAccess(newLogin.getUserName(), newLogin.getPassWord()).equals("user") && !useraccesswindow.getQuizCancelButtonClicked()) {
+                    useraccesswindow.setLocation(1150, 500);
+                    useraccesswindow.setSize(500, 300);
+                    useraccesswindow.setVisible(true);
 
-                if (useraccesswindow.getGetQuizClicked()){
-                    quizSizeWindow quizSize = new quizSizeWindow(this);
-                    quizSize.setLocation(1050, 500);
-                    quizSize.setSize(800, 300);
-                    quizSize.setVisible(true);
+                    if (useraccesswindow.getGetQuizClicked()){
+                        quizSizeWindow quizSize = new quizSizeWindow(this);
+                        quizSize.setLocation(1050, 500);
+                        quizSize.setSize(800, 300);
+                        quizSize.setVisible(true);
 
-                    for (int i = 0; i < quizWindow.getNumberOfQuiz(); i++) {
-                        quizWindow quiz = new quizWindow(this);
-                        quiz.setTitle("Question " + (i + 1));
-                        quiz.setLocation(1050, 500);
-                        quiz.setSize(400, 300);
-                        quiz.setVisible(true);
+                        for (int i = 0; i < quizWindow.getNumberOfQuiz(); i++) {
+                            quizWindow quiz = new quizWindow(this);
+                            quiz.setTitle("Question " + (i + 1));
+                            quiz.setLocation(1050, 500);
+                            quiz.setSize(400, 300);
+                            quiz.setVisible(true);
 
+                            if (quiz.getQuizCancelButtonClicked()){
+                                break;
+                            }
 
-                        if (quiz.getQuizCancelButtonClicked()){
-                            break;
+                            quiz.setQuestionSource(0);
+                            quiz.setQuestionCountry(0);
+                            quiz.setQuestionCapital(0);
                         }
-
-                        quiz.setQuestionSource(0);
-                        quiz.setQuestionCountry(0);
-                        quiz.setQuestionCapital(0);
+                        showMessageDialog(this, "Hey " + newLogin.getUserName() + "!\nYou got: " + newLoginInterface.getScore() + " correct answers!");
                     }
-                    showMessageDialog(this, "Hey " + newLogin.getUserName() + "!\nYou got: " + newLoginInterface.getScore() + " correct answers!");
                 }
             }
         }

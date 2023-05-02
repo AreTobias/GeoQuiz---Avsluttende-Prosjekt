@@ -58,7 +58,8 @@ public class quizWindow extends Interface {
                 questionString.setLength(0);
                 questionString.append(questions.get(random.nextInt(questions.size())));
                 questionSource.append(Database.findQuestionSource(questionString.toString()));
-
+                System.out.println(Api.getRandomNativeName());
+                System.out.println(Api.getCountryNativeNameFromCountryName("Norway"));
 
                 add(question);
                 add(answer1);
@@ -94,13 +95,13 @@ public class quizWindow extends Interface {
                     questionCountry.append(Api.getCountryRandom());
                     question.setText(questionString.toString() + questionCountry + "?");
 
-                    answer1.setText("1 - " + Api.getRegionString(questionCountry.toString()));
+                    answer1.setText("1. " + Api.getRegionString(questionCountry.toString()));
                     regions.remove(answer1.getText());
-                    answer2.setText("2 - " + regions.get(random.nextInt(regions.size())));
+                    answer2.setText("2. " + regions.get(random.nextInt(regions.size())));
                     regions.remove(answer2.getText());
-                    answer3.setText("3 - " + regions.get(random.nextInt(regions.size())));
+                    answer3.setText("3. " + regions.get(random.nextInt(regions.size())));
                     regions.remove(answer3.getText());
-                    answer4.setText("4 - " + regions.get(random.nextInt(regions.size())));
+                    answer4.setText("4. " + regions.get(random.nextInt(regions.size())));
 
                 } else if (questionSource.toString().equalsIgnoreCase("population")) {
 
@@ -108,20 +109,36 @@ public class quizWindow extends Interface {
                     question.setText(questionString.toString() + questionCountry + "?");
                     correctAnswer.append(Api.getCountryCapitalFromName(questionCountry.toString()));
 
-                    answer1.setText("1 - " + Integer.toString(Api.getPopulationRandom()));
-                    answer2.setText("2 - " + Integer.toString(Api.getPopulationRandom()));
-                    answer3.setText("3 - " + Api.getPopulationString(questionCountry.toString()));
-                    answer4.setText("4 - " + Integer.toString(Api.getPopulationRandom()));
+                    answer1.setText("1. " + Api.getPopulationRandom());
+                    answer2.setText("2. " + Api.getPopulationRandom());
+                    answer3.setText("3. " + Api.getPopulationString(questionCountry.toString()));
+                    answer4.setText("4. " + Api.getPopulationRandom());
 
                 } else if(questionSource.toString().equalsIgnoreCase("area")){
-
                     questionCountry.append(Api.getCountryRandom());
                     question.setText(questionString.toString() + questionCountry + "?");
-                    answer1.setText("1 - " + Api.getAreaRandom());
-                    answer2.setText("2 - " + Api.getAreaRandom());
-                    answer3.setText("3 - " + Api.getAreaString(questionCountry.toString()));
-                    answer4.setText("4 - " + Api.getAreaRandom());
+                    answer1.setText("1. " + Api.getAreaRandom());
+                    answer2.setText("2. " + Api.getAreaRandom());
+                    answer3.setText("3. " + Api.getAreaString(questionCountry.toString()));
+                    answer4.setText("4. " + Api.getAreaRandom());
+
+                } else if (questionSource.toString().equalsIgnoreCase("subregion")){
+                    questionCountry.append(Api.getCountryRandom());
+                    question.setText(questionString.toString() + questionCountry + "?");
+                    answer1.setText("1. " + Api.getRandomSubRegion());
+                    answer2.setText("2. " + Api.getRandomSubRegion());
+                    answer3.setText("3. " + Api.getRandomSubRegion());
+                    answer4.setText("4. " + Api.getSubRegionFromCountryName(questionCountry.toString()));
+
+                } else if ( questionSource.toString().equalsIgnoreCase("nativeName")){
+                    questionCountry.append(Api.getCountryRandom());
+                    question.setText(questionString.toString() + questionCountry + "?");
+                    answer1.setText("1. " + Api.getRandomNativeName());
+                    answer2.setText("2. " + Api.getCountryNativeNameFromCountryName(questionCountry.toString()));
+                    answer3.setText("3. " + Api.getRandomNativeName());
+                    answer4.setText("4. " + Api.getRandomNativeName());
                 }
+
 
                 pack();
             }
@@ -135,7 +152,7 @@ public class quizWindow extends Interface {
             return nextQuestionClicked;
         }
         public boolean getQuizCancelButtonClicked() {
-            return quizCancelButtonClicked;
+            return quizCancelClicked;
         }
 
         public JPanel getQuizcheckbox() { return quizcheckbox; }
@@ -159,7 +176,6 @@ public class quizWindow extends Interface {
 
         public void setQuestionSource(int length) { questionSource.setLength(length); }
         public void setQuestionCountry(int length) { questionCountry.setLength(length); }
-
         public void setQuestionCapital(int length) { questionCapital.setLength(length); }
 
         public class quizButtonListener implements ActionListener {
@@ -192,15 +208,26 @@ public class quizWindow extends Interface {
                         quizScore++;
                         setVisible(false);
                     }
-                } else {
+                } else if (button.equals("Next") && questionSource.toString().equalsIgnoreCase("subregion")) {
+                    if (answer2.isSelected()) {
+                        quizScore++;
+                        setVisible(false);
+                    }
+                } else if (button.equals("Next") && questionSource.toString().equalsIgnoreCase("nativeName")) {
+                    if (answer4.isSelected()) {
+                        quizScore++;
+                        setVisible(false);
+                    }
+                }
+                else {
                     if (button.equals("Cancel")) {
                         quizCancelClicked = true;
                         setVisible(false);
                     }
-
-                    setVisible(false);
+                }
+                setVisible(false);
             }
         }
-    }
 }
+
 

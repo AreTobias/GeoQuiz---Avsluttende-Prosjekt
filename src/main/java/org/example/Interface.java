@@ -8,41 +8,29 @@ import static javax.swing.JOptionPane.*;
 
 public class Interface extends JDialog {
 
-    public int getScore () {
-        return quizWindow.quizScore;
-    }
+    public int getScore () { return quizWindow.quizScore;  }
 
-    public void setScore() { quizWindow.quizScore = 0;}
+
+    // ----------------------------- BOOLEAN VALUES
     public boolean cancelRegisterQestion = false;
     public boolean quizCancelClicked = false;
-
     public boolean loginClicked = false;
-
+    public boolean loginCancelClicked = false;
     public boolean newUserClicked = false;
-
     public boolean newQuestionClicked = false;
-
     public boolean isVerified = true;
-
     public boolean registerUserClicked = false;
     public boolean registerQuestionClicked = false;
-
-    public boolean getQuestionClicked = false;
-
     public boolean getQuizClicked = false;
-
-    public void setQuizClicked (boolean value) {
-        getQuizClicked = value;
-    }
-
     public boolean getRegisteredUsers = false;
-
-    public static boolean deleteUsersClicked = false;
+    public boolean deleteUsersClicked = false;
     public boolean deleteButtonClicked = false;
     public boolean adminCancelButton = false;
     public boolean createQuizClicked = false;
     public boolean nextQuestionClicked = false;
     public boolean quizCancelButtonClicked = false;
+
+    // ---------------------------------------------------- PANELS
     private final LoginButtonPanel loginButton = new LoginButtonPanel();
     private final adminButtonPanel adminbuttonpanel = new adminButtonPanel();
     private final newUserButtonPanel newUserbuttonpanel = new newUserButtonPanel();
@@ -50,6 +38,11 @@ public class Interface extends JDialog {
     private final UserAccessButtonPanel userAccessButtonPanel = new UserAccessButtonPanel();
     private final deleteUserButtonPanel deleteuserbuttonpanel = new deleteUserButtonPanel();
     private final numberQuestionButtonPanel numberQuestionButtonPanel = new numberQuestionButtonPanel();
+
+    // ------------------------------- VOIDS
+
+    public void setDeleteUsersClicked(boolean value){ deleteUsersClicked = value; }
+
 
     protected Interface(JFrame parent, String title) {
 
@@ -232,12 +225,12 @@ public class Interface extends JDialog {
 
             if (button.equals("Login")) {
                 loginClicked = true;
-                adminCancelButton = false;
+                loginCancelClicked = false;
                 System.out.println("Login clicked: " + loginClicked);
                 setVisible(false);
             } else if (button.equals("Cancel")) {
                 loginClicked = false;
-                adminCancelButton = false;
+                loginCancelClicked = true;
                 setVisible(false);
             }
         }
@@ -285,9 +278,9 @@ public class Interface extends JDialog {
                 newUserClicked = false;
                 newQuestionClicked = false;
                 getRegisteredUsers = false;
+                loginCancelClicked = false;
                 setVisible(false);
-            }
-            setVisible(false);
+            }//setVisible(false);
         }
     }
 

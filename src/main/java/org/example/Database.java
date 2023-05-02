@@ -242,6 +242,7 @@ public class Database {
 
     }
 
+
     public static HashMap<Integer, String[]> getUser() {
 
         Connection connection = null;
@@ -311,7 +312,7 @@ public class Database {
     public static String findQuestionSource(String question) throws Exception {
 
         List<String> questionSplit = List.of(question.split(" "));
-        Set<String> questionSourceSet = Set.of("name", "population", "capital", "area", "currency", "region", "subregion");
+        Set<String> questionSourceSet = Set.of("name", "population", "capital", "area", "currency", "region", "subregion", "nativeName");
         String source = "";
 
         for (String s: questionSplit ){
