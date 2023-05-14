@@ -2,35 +2,51 @@ package org.example;
 
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 
 import static javax.swing.JOptionPane.*;
 
 public class Interface extends JDialog {
 
-    public int getScore () { return quizWindow.quizScore;  }
+    public int getScore () {
+        return quizWindow.quizScore;
+    }
 
-
-    // ----------------------------- BOOLEAN VALUES
-    public boolean cancelRegisterQestion = false;
+    public boolean loginLoginButtonClicked = false;
+    public boolean loginCancelButtonClicked = false;
+    public boolean selfRegisterCancelClicked = false;
+    public boolean LoginsSelfRegisterCLicked = false;
+    public boolean cancelRegisterQuestion = false;
     public boolean quizCancelClicked = false;
+    public boolean deleteUserCancelClicked = false;
     public boolean loginClicked = false;
-    public boolean loginCancelClicked = false;
+
     public boolean newUserClicked = false;
+
     public boolean newQuestionClicked = false;
+
     public boolean isVerified = true;
+
     public boolean registerUserClicked = false;
     public boolean registerQuestionClicked = false;
+
+    public boolean getQuestionClicked = false;
+
     public boolean getQuizClicked = false;
+
+    public void setQuizClicked (boolean value) {
+        getQuizClicked = value;
+    }
+
     public boolean getRegisteredUsers = false;
-    public boolean deleteUsersClicked = false;
+
+    public static boolean deleteUsersClicked = false;
     public boolean deleteButtonClicked = false;
     public boolean adminCancelButton = false;
     public boolean createQuizClicked = false;
     public boolean nextQuestionClicked = false;
     public boolean quizCancelButtonClicked = false;
-
-    // ---------------------------------------------------- PANELS
     private final LoginButtonPanel loginButton = new LoginButtonPanel();
     private final adminButtonPanel adminbuttonpanel = new adminButtonPanel();
     private final newUserButtonPanel newUserbuttonpanel = new newUserButtonPanel();
@@ -39,14 +55,15 @@ public class Interface extends JDialog {
     private final deleteUserButtonPanel deleteuserbuttonpanel = new deleteUserButtonPanel();
     private final numberQuestionButtonPanel numberQuestionButtonPanel = new numberQuestionButtonPanel();
 
-    // ------------------------------- VOIDS
+    public void setLoginCancelButtonClicked (boolean value) {
+        loginCancelButtonClicked = value;
+    }
 
-    public void setDeleteUsersClicked(boolean value){ deleteUsersClicked = value; }
-
+    //private final selfRegisterButtonPanel selfRegisterButtonPanel = new selfRegisterButtonPanel();
 
     protected Interface(JFrame parent, String title) {
-
         super(parent, title, true);
+
     }
 
     protected JPanel getLoginButtonPanel() {return loginButton;  }
@@ -65,6 +82,7 @@ public class Interface extends JDialog {
 
     protected JPanel getNumberQuestionButtonPanel () { return numberQuestionButtonPanel; }
 
+    //protected JPanel getSelfRegisterButtonPanel () { return selfRegisterButtonPanel; }
 
 
     protected void setVerified(boolean value) {
@@ -77,15 +95,21 @@ public class Interface extends JDialog {
 
     private class LoginButtonPanel extends JPanel {
         public LoginButtonPanel() {
+            setLayout(new GridLayout(1, 3 ));
             JButton LoginButton = new JButton("Login");
-            JButton cancelButton = new JButton("Cancel");
+            JButton cancelButton = new JButton("Exit");
+            JButton selfRegister = new JButton("Register");
+
             add(LoginButton);
+            add(selfRegister);
             add(cancelButton);
+
 
             loginButtonListener listener = new loginButtonListener();
 
             LoginButton.addActionListener(listener);
             cancelButton.addActionListener(listener);
+            selfRegister.addActionListener(listener);
 
             KeyStroke escape = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
             InputMap keyMap = cancelButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
@@ -96,6 +120,8 @@ public class Interface extends JDialog {
         }
     }
 
+
+
     private class adminButtonPanel extends JPanel {
         public adminButtonPanel() {
 
@@ -103,7 +129,7 @@ public class Interface extends JDialog {
             JButton newQuestion = new JButton("New question");
             JButton getUsers = new JButton("Show Current Users");
             //JButton deleteUser = new JButton("Delete users");
-            JButton cancel = new JButton("Cancel");
+            JButton cancel = new JButton("Logout");
             add(newUser);
             add(newQuestion);
             add(getUsers);
@@ -172,8 +198,8 @@ public class Interface extends JDialog {
         public UserAccessButtonPanel() {
 
 
-            JButton getQuiz = new JButton("Get Quiz");
-            JButton Cancel = new JButton("Cancel");
+            JButton getQuiz = new JButton("Start quiz");
+            JButton Cancel = new JButton("Logout");
 
 
             add(getQuiz);
@@ -190,7 +216,7 @@ public class Interface extends JDialog {
         public numberQuestionButtonPanel() {
 
             JButton createQuiz = new JButton("Create quiz");
-            JButton cancelQuestion = new JButton("Cancel");
+            JButton cancelQuestion = new JButton("Back");
 
             add(createQuiz);
             add(cancelQuestion);
@@ -225,12 +251,21 @@ public class Interface extends JDialog {
 
             if (button.equals("Login")) {
                 loginClicked = true;
-                loginCancelClicked = false;
+                adminCancelButton = false;
+                loginCancelButtonClicked = false;
+                LoginsSelfRegisterCLicked = false;
                 System.out.println("Login clicked: " + loginClicked);
                 setVisible(false);
-            } else if (button.equals("Cancel")) {
+            } else if (button.equals("Exit")) {
                 loginClicked = false;
-                loginCancelClicked = true;
+                loginCancelButtonClicked = true;
+                LoginsSelfRegisterCLicked = false;
+                setVisible(false);
+            } else if (button.equals("Register")){
+                loginClicked = false;
+                loginCancelButtonClicked = false;
+                LoginsSelfRegisterCLicked = true;
+                System.out.println("Self register is clicked!");
                 setVisible(false);
             }
         }
@@ -278,9 +313,10 @@ public class Interface extends JDialog {
                 newUserClicked = false;
                 newQuestionClicked = false;
                 getRegisteredUsers = false;
-                loginCancelClicked = false;
                 setVisible(false);
-            }//setVisible(false);
+
+            }
+            setVisible(false);
         }
     }
 
@@ -314,7 +350,7 @@ public class Interface extends JDialog {
             } else {
                 if (button.equals("Back")){
                     registerQuestionClicked = false;
-                    cancelRegisterQestion = true;
+                    cancelRegisterQuestion = true;
                     setVisible(false);
                 }
             }
@@ -330,11 +366,18 @@ public class Interface extends JDialog {
 
             if (button.equals("Create quiz")) {
                 createQuizClicked = true;
+                quizCancelButtonClicked = false;
                 setVisible(false);
-            } else if (button.equalsIgnoreCase("get quiz")) {
+            } if (button.equalsIgnoreCase("Start quiz")) {
                 getQuizClicked = true;
+                quizCancelButtonClicked = false;
                 setVisible(false);
-            } else {
+            } else if (button.equals("Back")) {
+                createQuizClicked = false;
+                getQuizClicked = false;
+                quizCancelButtonClicked = true;
+                setVisible(false);
+            } else if (button.equals("Logout")){
                 createQuizClicked = false;
                 getQuizClicked = false;
                 quizCancelButtonClicked = true;
@@ -373,6 +416,8 @@ public class Interface extends JDialog {
             }
         }
     }
+
+
 
 }
 

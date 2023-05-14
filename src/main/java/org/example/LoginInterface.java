@@ -7,24 +7,35 @@ import static javax.swing.JOptionPane.*;
 
 public class LoginInterface extends Interface {
 
-
-     // false = user, true == admin
     private JTextField userName = new JTextField(10);
     private JPasswordField passWord = new JPasswordField(10);
 
-    LoginPanel loginPanel = new LoginPanel();
+    public void setUsernameField(String username) {
+        userName.setText(username);
+    }
 
+    public void setPasswordField(String password){
+        passWord.setText(password);
+    }
+
+    LoginPanel loginPanel = new LoginPanel();
+    infoPanel infopanel = new infoPanel();
 
     public LoginInterface(JFrame parent){
         super(parent, "Login");
-        add(new JPanel(), BorderLayout.NORTH);
-        add(new LoginPanel(), BorderLayout.CENTER);
+        userName.setText("");
+        passWord.setText("");
+
+        add(new JPanel());
+        add(new LoginPanel(), BorderLayout.NORTH);
+        add(getInfoPanel(), BorderLayout.CENTER);
         add(getLoginButtonPanel(), BorderLayout.SOUTH);
-        pack();  }
+        pack();
+    }
 
     private class LoginPanel extends JPanel {
         public LoginPanel(){
-            setLayout(new GridLayout(3, 2));
+            setLayout(new GridLayout(2, 2));
             add(new JLabel("Username"));
             add(userName);
             add(new JLabel("Password"));
@@ -33,10 +44,22 @@ public class LoginInterface extends Interface {
         }
     }
 
+    public class infoPanel extends JPanel {
+        public infoPanel () {
+            setLayout(new GridLayout(1, 2));
+            JLabel registerInfo = new JLabel("Do you not have an account?");
+            JLabel registerInfoTwo = new JLabel("\nClick \"Register\" to create one!");
+            add(registerInfo, BorderLayout.NORTH);
+            add(registerInfoTwo, BorderLayout.SOUTH);
+            pack();
+        }
+    }
+
     public JPanel getLoginPanel() {
         return loginPanel;
     }
 
+    public JPanel getInfoPanel () { return infopanel; }
     public String getUserName() {
         String username = userName.getText();
         return username;
@@ -71,6 +94,7 @@ public class LoginInterface extends Interface {
             login.setPassWord(passWord.getText());
             return true;
         }
+        showMessageDialog(LoginInterface.this, "Wrong username or password");
         return false;
     }
 
@@ -82,7 +106,6 @@ public class LoginInterface extends Interface {
 
         if (username.equals("") || password.equals(""))
         {
-            showMessageDialog(LoginInterface.this, "Wrong username or password");
             if (username.equals("")) {
                 userName.requestFocusInWindow();
             } else {
@@ -93,8 +116,12 @@ public class LoginInterface extends Interface {
     }
 
     public boolean getLoginClicked() {return loginClicked; }
+    public boolean getLoginCancelClicked () { return loginCancelButtonClicked; }
+    public boolean getSelfRegisterClicked() { return LoginsSelfRegisterCLicked; }
 
-    public boolean getLoginCancelClicked() { return loginCancelClicked; }
+    public void setSelfRegisterClicked(boolean value) {
+        LoginsSelfRegisterCLicked = value;
+    }
 
 
 }

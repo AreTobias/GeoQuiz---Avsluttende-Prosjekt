@@ -20,8 +20,7 @@ public class UserWindow extends Interface{
         pack();
     }
 
-    private class UserPanel extends JPanel {
-        public UserPanel(){
+    private class UserPanel extends JPanel { public UserPanel(){
             setLayout(new GridLayout(4, 4));
             add(new JLabel("Username"));
             add(userName);
@@ -60,6 +59,10 @@ public class UserWindow extends Interface{
 
     protected void showRegisteredUserMessage() {
         showMessageDialog(UserWindow.this, "New User registered successfully!");
+    }
+
+    protected void showFailedRegisteredUserMessage() {
+        showMessageDialog(UserWindow.this, "Couldn't register new user, username taken.");
     }
 
 

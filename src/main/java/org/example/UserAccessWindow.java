@@ -31,6 +31,10 @@ public class UserAccessWindow extends Interface {
         return quizCancelButtonClicked;
     }
 
+    public void setQuizCancelButtonClicked() {
+        quizCancelButtonClicked = false;
+    }
+
     protected boolean getGetQuizClicked() {
         return getQuizClicked;
     }

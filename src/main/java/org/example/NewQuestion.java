@@ -15,16 +15,17 @@ public class NewQuestion extends Interface{
 
     public NewQuestion(JFrame parent){
         super(parent, "New Question");
-        add(new JPanel(), BorderLayout.NORTH);
+        add(new JPanel());
+        add(new JLabel("Register new question here"), BorderLayout.NORTH);
         add(getQuestionPanel(), BorderLayout.CENTER);
         add(getNewQuestionButtonPanel(), BorderLayout.SOUTH);
-        setSize(400, 400);
+
         pack();
     }
 
     private class QuestionPanel extends JPanel {
         public QuestionPanel(){
-            setLayout(new GridLayout(4, 4));
+            setLayout(new GridLayout(2, 2));
             add(new JLabel("New question:"));
             add(questionField);
             add(new JLabel("Answer"));
@@ -52,7 +53,7 @@ public class NewQuestion extends Interface{
 
     }
     protected boolean getCancelRegisterUserClicked () {
-        return cancelRegisterQestion;
+        return cancelRegisterQuestion;
     }
 
 

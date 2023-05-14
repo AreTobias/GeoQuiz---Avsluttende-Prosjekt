@@ -2,17 +2,18 @@ package org.example;
 
 public class Countries {
 
- // name,population,capital,area,currencies,region,subregion,language,nativeName
+
 
     private String name;
-    private String capital;
-    private String subregion;
-    private String region;
     private String population;
+    private String capital;
     private String area;
+    private String region;
+    private String subregion;
+    private  String language;
     private String nativeName;
 
-    public String getNativeNames() {
+    public String getNativeName() {
         return nativeName;
     }
 
@@ -66,7 +67,13 @@ public class Countries {
         this.area = area;
     }
 
+    public String getLanguage() {
+        return language;
+    }
 
+    public void setLanguage(String language) {
+        this.language = language;
+    }
 
 
 
