@@ -5,28 +5,20 @@ public class Countries {
 
 
     private String name;
-    private String capital;
-    private String subregion;
-    private String region;
     private String population;
+    private String capital;
     private String area;
-    private String currencies;
-    private String nativeNames;
+    private String region;
+    private String subregion;
+    private  String language;
+    private String nativeName;
 
-    public String getCurrencies() {
-        return currencies;
-    }
-
-    public void setCurrencies(String currencies) {
-        this.currencies = currencies;
-    }
-
-    public String getNativeNames() {
-        return nativeNames;
+    public String getNativeName() {
+        return nativeName;
     }
 
     public void setNativeNames(String nativeNames) {
-        this.nativeNames = nativeNames;
+        this.nativeName = nativeNames;
     }
 
     public String getName() {
@@ -75,7 +67,13 @@ public class Countries {
         this.area = area;
     }
 
+    public String getLanguage() {
+        return language;
+    }
 
+    public void setLanguage(String language) {
+        this.language = language;
+    }
 
 
 

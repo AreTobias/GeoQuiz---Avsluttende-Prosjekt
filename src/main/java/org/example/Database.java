@@ -21,7 +21,7 @@ public class Database {
 
     }
 
-    public static boolean checkLogin(String username, String password) {
+    public static boolean CheckUserNameExist(String username) {
 
         Connection connection = null;
         boolean result = false;
@@ -29,11 +29,10 @@ public class Database {
         try
         {
             connection = connect();
-            PreparedStatement preparedStatement = connection.prepareStatement("Select username, password, access from users where username = ? and password = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement("Select username from users where username = ?");
             preparedStatement.setString(1, username);
-            preparedStatement.setString(2, password);
             ResultSet rs = preparedStatement.executeQuery();
-            String access = null;
+
             if (rs.next()){
                 result = true;
             }
@@ -311,7 +310,7 @@ public class Database {
     public static String findQuestionSource(String question) throws Exception {
 
         List<String> questionSplit = List.of(question.split(" "));
-        Set<String> questionSourceSet = Set.of("name", "population", "capital", "area", "currency", "region", "subregion");
+        Set<String> questionSourceSet = Set.of("name", "population", "capital", "area", "region", "subregion", "language", "nativeName");
         String source = "";
 
         for (String s: questionSplit ){

@@ -4,8 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -13,42 +14,19 @@ public class showRegisteredUsersWindow extends Interface {
 
     showRegisteredUsersPanel showRegUsersPanel = new showRegisteredUsersPanel();
 
-    public static HashMap<Integer, String[]> users = new HashMap<>(Database.getUser());
-    public static JLabel ID = new JLabel();
-    public static JLabel userName = new JLabel();
-    public static JLabel access = new JLabel();
     public static JTextField idTextField = new JTextField(10);
-    //public int idInt = Integer.parseInt(idTextField.getText());
+
     public static JTextField usernameTextField = new JTextField(10);
     public static JTextArea textArea = new JTextArea();
-    public void setIdTextField(String idFelt) {
-        idTextField.setText(idFelt);
-    }
-    public void setUsernameTextField(String username) {
-        usernameTextField.setText(username);
-    }
-
-    public void setID(String IDInput) { ID.setText(IDInput); }
-
-    public void setTextArea (String id, String username, String access) {
-        textArea.append(id);
-        textArea.append(username);
-        textArea.append(access);
-    }
-
-    public void setUserName(String userNameInput) {
-        userName.setText(userNameInput);
-    }
-
-    public void setAccess(String AccessInput) {
-        access.setText(AccessInput);
-    }
-
+    public static JScrollPane scrollpane = new JScrollPane();
     showRegisteredUsersButtonPanel buttonpanel = new showRegisteredUsersButtonPanel();
+
+    showDeleteUsersInputPanel showDeleteUsersInputPanel = new showDeleteUsersInputPanel();
 
     public showRegisteredUsersWindow(JFrame parent) {
         super(parent, "Registered users");
-        add(getshowRegisteredUsersPanel(), BorderLayout.CENTER);
+        add(getshowRegisteredUsersPanel(), BorderLayout.NORTH);
+        add(getShowDeleteUsersInputPanel(), BorderLayout.CENTER);
         add(getShowRegisteredusersButtonPanel(), BorderLayout.SOUTH);
         pack();
 
@@ -56,30 +34,22 @@ public class showRegisteredUsersWindow extends Interface {
 
     private class showRegisteredUsersPanel extends JPanel{
         public showRegisteredUsersPanel() {
-            setLayout(new GridLayout(3, 3));
+            setLayout(new GridLayout(1, 1));
             JPanel textPanel = new JPanel();
+            HashMap<Integer, String[]> users = new HashMap<>(Database.getUser());
+            textArea.setText("");
+            idTextField.setText("");
+            usernameTextField.setText("");
 
-
-            ArrayList<String[]> test = new ArrayList<String[]>(users.values());
-
-            for(String[] s: test){
-                System.out.println(users.entrySet());
-                System.out.println(s);
+            for (Map.Entry<Integer, String[]> set : users.entrySet()){
+                textArea.append(set.getKey().toString() + " - " + Arrays.toString(set.getValue()) + "\n");
             }
-            textPanel.add(textArea);
-            textArea.setEditable(false);
-            JScrollPane scrollPane = new JScrollPane(textPanel);
 
-            JLabel delId = new JLabel("Id:");
-            JLabel delUserName = new JLabel("Username:");
-            //textPanel.add(ID);
-            //textPanel.add(userName);
-            //textPanel.add(access);
-            add(scrollPane);
-            add(delId);
-            add(idTextField);
-            add(delUserName);
-            add(usernameTextField);
+            textPanel.add(textArea);
+            scrollpane.add(textArea);
+            textArea.setEditable(false);
+            add(textArea);
+            add(scrollpane);
             pack();
         }
     }
@@ -87,7 +57,7 @@ public class showRegisteredUsersWindow extends Interface {
 
     public class showRegisteredUsersButtonPanel extends JPanel {
         public showRegisteredUsersButtonPanel() {
-            setLayout(new GridLayout(2, 2));
+            setLayout(new GridLayout(1, 1));
             JButton delUser = new JButton("Delete");
             JButton cancel = new JButton("Cancel");
             add(delUser);
@@ -100,10 +70,26 @@ public class showRegisteredUsersWindow extends Interface {
         }
     }
 
+    public class showDeleteUsersInputPanel extends JPanel {
+        public showDeleteUsersInputPanel() {
+            setLayout(new GridLayout(2, 1));
+            JLabel delId = new JLabel("Id:");
+            JLabel delUserName = new JLabel("Username:");
+
+            add(delId);
+            add(idTextField);
+            add(delUserName);
+            add(usernameTextField);
+        }
+    }
+
     public JPanel getShowRegisteredusersButtonPanel() {return buttonpanel;}
 
     public  JPanel getshowRegisteredUsersPanel() { return showRegUsersPanel;}
 
+    public JPanel getShowDeleteUsersInputPanel () { return showDeleteUsersInputPanel; }
+
+    public boolean getDelUserCancelClicked () { return deleteUserCancelClicked; }
 
     public class showUsersButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
@@ -111,14 +97,25 @@ public class showRegisteredUsersWindow extends Interface {
             String button = event.getActionCommand();
 
             if (button.equals("Delete")) {
-                if (Database.deleteUser(Integer.parseInt(idTextField.getText()), usernameTextField.getText())) {
-                    deleteUsersClicked = true;
+                if (Database.CheckUserNameExist(usernameTextField.getText())){
+                    if (Database.deleteUser(Integer.parseInt(idTextField.getText()), usernameTextField.getText())) {
+                        deleteUsersClicked = true;
+                        showDeleteUserMessage();
+                        setVisible(false);
 
+                    }
+                }
+                 else {
+                    showMessageDialog(null, "Couldn't delete that user!");
+                    setVisible(false);
                 }
 
             } else {
-                if (button.equals("Cancel"))
+                if (button.equals("Cancel")){
+                    deleteUserCancelClicked = true;
                     setVisible(false);
+                }
+
             }
         }
     }
@@ -127,7 +124,7 @@ public class showRegisteredUsersWindow extends Interface {
         showMessageDialog(showRegisteredUsersWindow.this, "User deleted successfully!");
     }
 
-    protected boolean getDeleteUsersClicked() {return deleteUsersClicked; }
+
 
 
 

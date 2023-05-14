@@ -28,6 +28,7 @@ class AdminWindow extends Interface{
     }
 
     protected boolean getDeletedUsersClicked() { return deleteUsersClicked;}
+    public boolean getDelUserCancelClicked () { return deleteUserCancelClicked; }
 
     protected boolean getNewQuestionClicked() { return newQuestionClicked; }
 
@@ -40,6 +41,10 @@ class AdminWindow extends Interface{
     }
 
     protected boolean getAdminCancelButton() { return adminCancelButton; }
+
+    public void setAdminCancelButton() {
+        adminCancelButton = false;
+    }
 
 
 }
