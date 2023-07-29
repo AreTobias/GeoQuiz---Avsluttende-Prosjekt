@@ -1,21 +1,27 @@
 # GeoQuiz
 
-Avsluttende prosjekt fra TISIP fagskole 2023.
+This is a school project which is designed to create a quiz for a user based on geographical questions, and also an administrator gui to create and delete users and questions.
 
-Prosjektet er bygget på Java, basisen for prosjektet er å lage en geo quiz ved bruk av et API.
+The project is written in Java and uses a mySQL database.
 
-Apiet som er brukt er REST Countries API: https://restcountries.com/
+The API I've used to create and validate quiz questions and answers: https://restcountries.com/
 
-Programmet har en enkel GUI bygd på swing med pålogging og autentisering (ikke noe sikkert, sjekker tilgang i Databasen), med to forskjellige grensesnitt.
+Examples:
+- What capital does Norway have?
+1) Oslo | 2) Berlin | 3) Copenhagen | 4) Paris
 
-Administrator grensesnitt om brukeren har admin tilgang, hvor man har tilgang til å opprette, slette og hente ut registrerte brukere, samt. opprette
-(har ikke lagt inn slette) spørsmål.
-
-Brukergrensesnittet går ut på å opprette og bruke spørsmålene som er opprettet i form av en quiz. Når man logger inn som en bruker
-blir man bedt om å angi hvor mange spørsmål (størrelsen på quizen), hvor man da blir spurt om forskjellig spørsmål basert på forskjellige land
-
-Eksempler: 
-- What capital does Norway have? 
 - In what region is France located?
+1) South-east asia | 2) Europe | 3) South-america | 4) Oceania
+
 - Whats the population of Portugal?
+1) 1234123 | 2) 1237 | 3) 1238129 | 4) 9182
+
 - In what country do we find the capital Moscow?
+1) China | 2) Bosnia | 3) Russia | 4) Spain
+
+
+Known errors:
+
+- Performance issues doing GET requests to the dabase
+- Performance issues doing GET requests to the API
+- Missing score tracker after quiz iz finished
