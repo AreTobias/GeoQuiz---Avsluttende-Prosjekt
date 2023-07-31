@@ -21,7 +21,7 @@ public class Api  {
        try {
            HttpRequest getRequest = HttpRequest.newBuilder()
                    .uri(new URI("https://restcountries.com/v2/all?fields=name,population,capital,area,region,subregion,nativeName"))
-                   .header("Authorization", "PMAK-642eba4d7d25703cc5178dd4-24fa0d513a60ab03a22a8f9a8de054a9d7")
+                   .header("Authorization", "")
 
                    .build();
 
