@@ -80,31 +80,32 @@ public class LoginInterface extends Interface {
 
     protected boolean checkLogin(Login login){
 
+
         String username = userName.getText();
         String password = passWord.getText();
 
         login.setUserName(username);
         login.setPassWord(password);
-
+        boolean value = false;
         setVerified(false);
         pack();
         userName.requestFocusInWindow();
-        if (dataOk()){
+        if (dataOk(login.getUserName(), login.getPassWord())){
             login.setUserName(userName.getText());
             login.setPassWord(passWord.getText());
-            return true;
+            value = true;
+        } else {
+            showMessageDialog(LoginInterface.this, "Wrong username or password");
         }
-        showMessageDialog(LoginInterface.this, "Wrong username or password");
-        return false;
+        return value;
     }
 
 
-    protected boolean dataOk() {
-        String username = userName.getText().trim();
-        String password = passWord.getText().trim();
+    protected boolean dataOk(String username, String password) {
+        //String username = userName.getText().trim();
+        //String password = passWord.getText().trim();
 
-
-        if (username.equals("") || password.equals(""))
+        if (username.trim().equals("") || password.trim().equals(""))
         {
             if (username.equals("")) {
                 userName.requestFocusInWindow();

@@ -1,16 +1,11 @@
 package org.example;
 
-import com.google.gson.Gson;
-import org.jetbrains.annotations.NotNull;
+import com.google.gson.*;
+import org.jetbrains.annotations.*;
 
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
+import java.net.*;
+import java.net.http.*;
+import java.util.*;
 
 public class Api  {
 
@@ -25,8 +20,9 @@ public class Api  {
 
        try {
            HttpRequest getRequest = HttpRequest.newBuilder()
-                   .uri(new URI("https://restcountries.com/v2/all?fields=name,population,capital,area,currencies,region,subregion,language,nativeName"))
+                   .uri(new URI("https://restcountries.com/v2/all?fields=name,population,capital,area,region,subregion,nativeName"))
                    .header("Authorization", "PMAK-642eba4d7d25703cc5178dd4-24fa0d513a60ab03a22a8f9a8de054a9d7")
+
                    .build();
 
            HttpClient httpClient = HttpClient.newHttpClient();
@@ -42,19 +38,6 @@ public class Api  {
 
     } // Returns the country of the Parameter capital
 
-    public static String getCountryNameFromCapital(String capitalInput) throws Exception{
-
-        Countries[] country = apiResult();
-        StringBuilder name = new StringBuilder();
-
-        for (Countries s: country){
-            if (capitalInput.equalsIgnoreCase(s.getCapital())){
-                name.append(s.getName());
-            }
-        }
-
-        return name.toString();
-    }
 
     public static String getCountryRandom() throws Exception {
 
@@ -69,32 +52,6 @@ public class Api  {
         return countryNames.get(randomIndex.nextInt(countryNames.size()));
     }
 
-
-    public static String getCapitalRandom() throws Exception {
-
-        Countries[] country = apiResult();
-        ArrayList<String> countryCapital = new ArrayList<>();
-        Random randomIndex = new Random();
-
-        for (Countries s: country){
-            countryCapital.add(s.getCapital());
-        }
-
-        return countryCapital.get(randomIndex.nextInt(countryCapital.size()));
-    }
-
-    public static String getSubRegionRandom() throws Exception {
-
-        Countries[] country = apiResult();
-        ArrayList<String> subRegion = new ArrayList<>();
-        Random randomIndex = new Random();
-
-        for (Countries s: country){
-            subRegion.add(s.getSubregion());
-        }
-
-        return subRegion.get(randomIndex.nextInt(subRegion.size()));
-    }
 
     public static String getSubregionFromCountryName(String CountryName) throws Exception {
 
@@ -133,32 +90,6 @@ public class Api  {
             }
         }
         return nativeName.toString();
-    }
-
-    public static int getPopulationRandom() throws Exception {
-
-        Countries[] country = apiResult();
-        ArrayList<Integer> countryPopulation = new ArrayList<>();
-        Random randomIndex = new Random();
-
-        for (Countries s: country){
-            countryPopulation.add(Integer.parseInt(s.getPopulation()));
-        }
-
-        return countryPopulation.get(randomIndex.nextInt(countryPopulation.size()));
-    }
-
-    public static String getAreaRandom() throws Exception {
-
-        Countries[] country = apiResult();
-        ArrayList<String> countryArea = new ArrayList<>();
-        Random randomIndex = new Random();
-
-        for (Countries s: country){
-            countryArea.add(s.getArea());
-        }
-
-        return countryArea.get(randomIndex.nextInt(countryArea.size()));
     }
 
     public static String getAreaString(String country) throws Exception {
@@ -202,18 +133,7 @@ public class Api  {
         return area.toString();
     }
 
-    public static String getCountryPopulationFromName(String country) throws Exception { // Returns the parameter country's Capital
 
-        Countries[] countryApi = apiResult();
-        StringBuilder population = new StringBuilder();
-
-        for (Countries s: countryApi){
-            if (country.equalsIgnoreCase(s.getName())){
-                population.append(s.getPopulation());
-            }
-        }
-        return population.toString();
-    }
     public static String getCountryCapitalFromName(String country) throws Exception { // Returns the parameter country's Capital
 
         Countries[] countryApi = apiResult();
@@ -264,10 +184,10 @@ public class Api  {
         return capital;
     }
     @NotNull
-    public static Set<String> getRegionsArrayList() throws Exception {
+    public static ArrayList<String> getRegionsArrayList() throws Exception {
 
         Countries[] country = apiResult();
-        Set<String> regions = new HashSet<>();
+        ArrayList<String> regions = new ArrayList<>();
 
         for (Countries s: country){
             regions.add(s.getRegion());
@@ -276,10 +196,10 @@ public class Api  {
         return regions;
     }
 
-    public static Set<String> getSubRegionArray() throws Exception {
+    public static ArrayList<String> getSubRegionArray() throws Exception {
 
         Countries[] country = apiResult();
-        Set<String> subRegions = new HashSet<>();
+        ArrayList<String> subRegions = new ArrayList<>();
 
         for (Countries s: country){
             subRegions.add(s.getSubregion());

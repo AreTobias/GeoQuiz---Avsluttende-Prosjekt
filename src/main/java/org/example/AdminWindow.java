@@ -42,8 +42,7 @@ class AdminWindow extends Interface{
 
     protected boolean getAdminCancelButton() { return adminCancelButton; }
 
-    public void setAdminCancelButton() {
-        adminCancelButton = false;
+    public void setAdminCancelButton() { adminCancelButton = false;
     }
 
 
