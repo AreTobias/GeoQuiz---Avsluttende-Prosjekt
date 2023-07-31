@@ -30,8 +30,7 @@ class ParentWindow extends JFrame {
                 newLoginInterface.setSelfRegisterClicked(false);
             }
 
-            if (newLoginInterface.getLoginClicked() && newLoginInterface.dataOk() && newLoginInterface.checkLogin(newLogin)) {
-                System.out.println("newadmin cancelbutton " + newAdmin.getAdminCancelButton() );
+            if (newLoginInterface.getLoginClicked() && newLoginInterface.checkLogin(newLogin)) {
                 while (Database.checkAccess(newLogin.getUserName(), newLogin.getPassWord()).equals("admin") && !newAdmin.getAdminCancelButton()) {
                     newAdmin.setLocation(850, 500);
                     newAdmin.setSize(700, 300);
@@ -73,7 +72,7 @@ class ParentWindow extends JFrame {
                 }
             }
 
-            if (newLoginInterface.getLoginClicked() && newLoginInterface.dataOk() && newLoginInterface.checkLogin(newLogin)) {
+            if (newLoginInterface.getLoginClicked() && newLoginInterface.checkLogin(newLogin)) {
                 while (Database.checkAccess(newLogin.getUserName(), newLogin.getPassWord()).equals("user") && !useraccesswindow.getQuizCancelButtonClicked()) {
                     useraccesswindow.setLocation(850, 500);
                     useraccesswindow.setSize(700, 300);
@@ -87,21 +86,77 @@ class ParentWindow extends JFrame {
 
                         if (!quizSize.getQuizCancelClicked()){
 
+
+                            quizWindow quiz = new quizWindow(this);
+
+
                             for (int i = 0; i < quizWindow.getNumberOfQuiz(); i++) {
-                                quizWindow quiz = new quizWindow(this);
                                 quiz.setTitle("Question " + (i + 1));
+
+
+                                quiz.setQuestionCountry();
+                                quiz.setQuestionString(quiz.getQuestionCountry());
+                                quiz.setQuestionSource(quiz.getQuestionString());
+
+                                switch (quiz.getQuestionSource()) {
+                                    case "capital" -> {
+                                        long start = System.currentTimeMillis();
+                                        quiz.fillCapitals();
+                                        quiz.isCapital();
+                                        long end = System.currentTimeMillis();
+                                        System.out.println(end - start);
+                                    }
+                                    case "population" -> {
+                                        long start = System.currentTimeMillis();
+                                        quiz.fillPopulations();
+                                        quiz.isPopulation();
+                                        long end = System.currentTimeMillis();
+                                        System.out.println(end - start);
+                                    }
+                                    case "region" -> {
+                                        long start = System.currentTimeMillis();
+                                        quiz.fillRegions();
+                                        quiz.isRegion();
+                                        long end = System.currentTimeMillis();
+                                        System.out.println(end - start);
+                                    }
+                                    case "area" -> {
+                                        long start = System.currentTimeMillis();
+                                        quiz.fillAreas();
+                                        quiz.isArea();
+                                        long end = System.currentTimeMillis();
+                                        System.out.println(end - start);
+                                    }
+                                    case "subregion" -> {
+                                        long start = System.currentTimeMillis();
+                                        quiz.fillSubRegion();
+                                        quiz.isSubRegion();
+                                        long end = System.currentTimeMillis();
+                                        System.out.println(end - start);
+                                    }
+                                    case "nativeName" -> {
+                                        long start = System.currentTimeMillis();
+                                        quiz.fillNativeNames();
+                                        quiz.isNativeName();
+                                        long end = System.currentTimeMillis();
+                                        System.out.println(end - start);
+                                    }
+                                }
+
+
                                 quiz.setLocation(850, 500);
                                 quiz.setSize(400, 300);
                                 quiz.setVisible(true);
-
 
                                 if (quiz.getQuizCancelButtonClicked()) {
                                     break;
                                 }
 
-                                quiz.setQuestionSource(0);
-                                quiz.setQuestionCountry(0);
-                                quiz.setQuestionCapital(0);
+                                quiz.deSelectAnswers();
+                                quiz.setQuestionSourceLength(0);
+                                quiz.setQuestionCountryLength(0);
+                                quiz.setQuestionStringLength(0);
+                                System.out.println("Test5");
                             }
 
                         showMessageDialog(this, "Hey " + newLogin.getUserName() + "!\nYou got: " + newLoginInterface.getScore() + " correct answers!");
